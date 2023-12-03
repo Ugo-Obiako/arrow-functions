@@ -167,11 +167,14 @@ console.log(message('Allie'));
 //   this.hometown = hometown;
 // };
 
-let Student = (name, age, hometown) => {
-    return { name,
-        age,
-        hometown}
-};
+ class Student  {
+          constructor (name, age, hometown) {
+          this.name=name,
+          this.age = age
+          this.hometown=hometown
+    }
+    displayInfo = () => {console.log(this.name, this.age, this.hometown)};
+  };
 
 let joe = new Student('Joe Schmoe', 100, 'Anytown, USA');
 
@@ -179,17 +182,26 @@ let joe = new Student('Joe Schmoe', 100, 'Anytown, USA');
 // Note that the arrow function will cause this code to break!
 console.log(joe);
 
+
 // TODO: After viewing the previous console.log(), return the code to a working state.
 
+// Student.prototype.greeting = function() {
+//   return `Hi, my name is ${this.name}`;
+// };
 
 
-Student.prototype.greeting = function() {
-  return `Hi, my name is ${this.name}`;
-};
+/*arrow functions don't have their own `this` context. They lexically capture 
+the this value from the surrounding code which in this case is likely to be 
+the global object (or undefined in strict mode). Therefore, using arrow functions for 
+prototype methods in constructor functions might lead to unexpected behavior 
+because they won't have access to the correct this context. Regular functions should be 
+used for defining prototype methods in constructor functions to ensure proper access to 
+the instance properties via this. */
+Student.prototype.greeting = () => {`Hi, my name is ${this.name}`};
 
 // TODO: Uncomment the following line of code to see the output in the browser console
 // Note that the arrow function will cause this method to break!
-// console.log(joe.greeting());
+console.log(joe.greeting());
 
 // TODO: After viewing the previous console.log(), return the code to a working state.
 
@@ -200,7 +212,7 @@ Student.courseName = function() {
 };
 
 // TODO: Uncomment the following line of code to see the output in the browser console
-// console.log(Student.courseName());
+console.log(Student.courseName());
 
 
 
@@ -211,17 +223,27 @@ Student.prototype.scope = function() {
 };
 
 // TODO: Uncomment the following line of code to see the output in the browser console
-// joe.scope();
+joe.scope();
 
 Student.prototype.scopeArrow = () => console.log(this);
 
 // TODO: Uncomment the following line of code to see the output in the browser console
-// joe.scopeArrow();
+ joe.scopeArrow();
 
 // TODO: Write a COMMENT below to answer the following questions.
-// 1. What is "this" when joe.scope() is invoked?
-//
-// 2. What is "this" when joe.scopeArrow() is invoked?
-//
+// 1. What is "this" when joe.scope() is invoked? Anaswer = The constructor function
+
+
+// 2. What is "this" when joe.scopeArrow() is invoked? Answer = The global object, Window
+
+
 // 3. Explain why "this" is different when an arrow function is used.
-//
+
+/*   arrow functions don't have their own `this` context. They lexically capture 
+the `this` value from the surrounding code which in this case is likely to be 
+the global object (or undefined in strict mode). Therefore, using arrow functions for 
+prototype methods in constructor functions might lead to unexpected behavior 
+because they won't have access to the correct this context. Regular functions should be 
+used for defining prototype methods in constructor functions to ensure proper access to 
+the instance properties via this. */
+
